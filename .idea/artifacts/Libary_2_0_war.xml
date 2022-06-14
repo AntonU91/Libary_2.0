@@ -9,7 +9,7 @@
         <unpackNestedArchives>false</unpackNestedArchives>
       </options>
     </properties>
-    <root id="archive" name="Libary_1.0.war">
+    <root id="archive" name="Libary_2.0.war">
       <element id="artifact" artifact-name="Libary_2.0:war exploded" />
     </root>
   </artifact>

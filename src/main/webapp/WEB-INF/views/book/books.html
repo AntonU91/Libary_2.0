@@ -10,7 +10,18 @@
     <br>
 </div>
 <br>
+<span th:text="Page+': ' "/><a th:href="@{/books?page=0&books_per_page=3}" th:text="1"></a>
+<a th:href="@{/books?page=1&books_per_page=3}" th:text="2"></a>
 <br>
+<!--<footer style="font-size: large" class="panel-footer">-->
+<!--    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]-->
+<!--    &nbsp; &nbsp; - &nbsp;-->
+<!--    <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--        <a th:href="@{/books?page={i}&books_per_page=3{id=${currentPage}}}">[[${i}]]</a>-->
+<!--        &nbsp; &nbsp;-->
+<!--    </span>-->
+<!--</footer>-->
+
 <a th:href="@{/books/new}"><button>Add new book</button></a>
 </body>
 </html>
