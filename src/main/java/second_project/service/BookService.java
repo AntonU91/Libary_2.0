@@ -11,9 +11,9 @@ import java.util.List;
 public interface BookService {
     public Book getBookById (int id);
 
-    public List<Book> getAllBooks ();
+    public List<Book> getAllBooks (boolean sortByYear);
    // public Iterable<Book> findPage(int pageNumber, int itemsOnPage); //todo check the efficient of this one
-    public Iterable<Book> getAllBooks (int pageNumber, int itemsOnPage);
+    public Iterable<Book> getAllBooks (Integer pageNumber, Integer itemsOnPage, boolean sortByYear);
     public void addBook (Book book);
     public void updateBook (int id, Book updatedBook);
     public void deleteBook (int id);

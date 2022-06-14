@@ -41,13 +41,13 @@ public class BookController {
 //    }
     @GetMapping("/books")
     public String showAllBooks(Model model,@RequestParam(name = "page", required = false) String currentPage,
-                          @RequestParam (name = "books_per_page",required = false) String booksNumberOnPage) {
+                          @RequestParam (name = "books_per_page",required = false) String booksNumberOnPage, @RequestParam (name="sort_by_year", required = false) boolean sortByYear) {
 
         if ((currentPage!=null && Integer.parseInt(currentPage)>=0)
                 ||( booksNumberOnPage!=null && Integer.parseInt(booksNumberOnPage)>0)) {
-        model.addAttribute("books", bookService.getAllBooks(Integer.parseInt(currentPage), Integer.parseInt(booksNumberOnPage)));}
+        model.addAttribute("books", bookService.getAllBooks(Integer.parseInt(currentPage), Integer.parseInt(booksNumberOnPage), sortByYear));}
         else {
-        model.addAttribute("books", bookService.getAllBooks());
+        model.addAttribute("books", bookService.getAllBooks(sortByYear));
         }
         return "book/books";
     }

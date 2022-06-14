@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import second_project.models.Book;
 import second_project.models.Person;
@@ -35,14 +36,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAllBooks() {
-       return bookRepo.findAll();
+    public List<Book> getAllBooks(boolean sortByYear) {
+        if (sortByYear) {
+            return bookRepo.findAll(Sort.by("yearOfPublication"));
+        } else {
+            return bookRepo.findAll();
+        }
     }
 
     @Override
-    public Iterable<Book> getAllBooks(int pageNumber, int itemsOnPage) {
-        Pageable pageable =  PageRequest.of(pageNumber, itemsOnPage);
-       return bookRepo.findAll(pageable);
+    public Iterable<Book> getAllBooks(Integer pageNumber, Integer itemsOnPage, boolean sortByYear) {
+
+        if (sortByYear) {
+            return bookRepo.findAll(PageRequest.of(pageNumber, itemsOnPage, Sort.by("yearOfPublication")));
+
+        } else {
+            return bookRepo.findAll(PageRequest.of(pageNumber, itemsOnPage));
+        }
+
     }
 
 //    @Override
@@ -75,7 +86,7 @@ public class BookServiceImpl implements BookService {
     public Person getOwner(int bookId) {
         Session session = em.unwrap(Session.class);
         Book book = bookRepo.findById(bookId).orElse(null);
-        return   book.getOwner();
+        return book.getOwner();
 
 
 //        return    (Person) session.createQuery("select Person from Book join Person on Book.owner.id=Person.id where Book.id=:id")
@@ -85,11 +96,11 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void releaseBookFromTheOwner(int bookId) {
-       Optional <Book> book = bookRepo.findById(bookId);
-       if (book.isPresent()) {
-           book.get().setOwner(null);
-       }
-       //book.getOwner().deleteBook(book);
+        Optional<Book> book = bookRepo.findById(bookId);
+        if (book.isPresent()) {
+            book.get().setOwner(null);
+        }
+        //book.getOwner().deleteBook(book);
     }
 
     @Override
