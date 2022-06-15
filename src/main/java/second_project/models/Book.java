@@ -4,10 +4,11 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Date;
 
 @Component
 @Entity
-@Table (name = "book", schema = "project_1")
+@Table (name = "book", schema = "project_2")
 public class Book {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -28,18 +29,24 @@ public class Book {
     @Min( value = 1, message = "The year of publication must be positive positive digit and has value greater than '0'")
     private int yearOfPublication;
 
+    @Column (name = "taken_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date taken_at;
+
+//    @Transient
+//    boolean overdueBookRent;
+
+    public boolean isBookRentIsOverdue () {
+    return new Date().getTime() >= (taken_at.getTime() + (10 * 24 * 60 * 60 * 1000)); // return true notice: allows 10 days for renting book
+    }
+
+
     @ManyToOne
     @JoinColumn(name= "person_id", referencedColumnName = "id")
     private Person owner;
 
-    public Person getOwner() {
-        return owner;
-    }
 
-    public void setOwner(Person owner) {
-        this.owner = owner;
-        // owner.getBooks().add(this);
-    }
+
 
     public Book() {
     }
@@ -49,6 +56,23 @@ public class Book {
         this.title = title;
         this.author = author;
         this.yearOfPublication = yearOfPublication;
+    }
+
+    public Date getTaken_at() {
+        return taken_at;
+    }
+
+    public void setTaken_at(Date taken_at) {
+        this.taken_at = taken_at;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+        // owner.getBooks().add(this);
     }
 
     public void setId(int id) {

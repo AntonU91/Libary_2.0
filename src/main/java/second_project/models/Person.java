@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @Entity
-@Table (name = "person", schema = "project_1" )
+@Table (name = "person", schema = "project_2" )
 public class Person {
 
     //   LocalDate currentDate = LocalDate.now();

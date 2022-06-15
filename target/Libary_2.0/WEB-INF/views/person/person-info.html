@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p th:text="${person.getFullName+ ', ' + person.getYearOfBirthday()}">VALUE</p>
+<br>
+<div th:if="${bookList.isEmpty()}">
+    <p>Человек пока не взял ни одной книги</p>
+    <hr/>
+</div>
+<div th:if="${!bookList.isEmpty()}">
+    <hr/>
+    <b>Книги:</b>
+    <br/>
+    <table th:each="book : ${bookList}">
+        <tr>
+            <td><span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublication}"
+                      th:style="${book.isBookRentIsOverdue()}?'color:red':'color:black'">book</span></td>
+        </tr>
+    </table>
+    <hr/>
+</div>
+
+<br>
+<form th:method="GET" th:action="@{{id}/edit(id = ${person.getId()})}">
+    <input type="submit" value="Edit person">
+</form>
+<br>
+<form th:method="DELETE" th:action="@{/delete-person/{id}(id=${person.getId()})}">
+    <input type="submit" value="Delete person"/>
+</form>
+
+
+<!--<div th:each="book :${bookList}">-->
+<!--    <div th:switch="${bookList.isEmpty()}">-->
+<!--        <p th:case ="${'true'}"><span th:text="Человек не взял пока ни одной книги"/></p>-->
+<!--        <p th:case ="*"><span th:text="*{book.getTitle}"/>, <span th:text="*{book.getAuthor}"/>, <span th:text="*{book.getYearOfPublication}"/></p>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--<div th:switch="${user.role}">-->
+<!--    <p th:case="'admin'">User is an administrator</p>-->
+<!--    <p th:case="#{roles.manager}">User is a manager</p>-->
+<!--    <p th:case="*">User is some other thing</p>-->
+<!--</div>-->
+</body>
+</html>

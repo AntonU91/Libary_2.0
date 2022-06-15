@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import second_project.repositories.BookRepo;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +100,7 @@ public class BookServiceImpl implements BookService {
         Optional<Book> book = bookRepo.findById(bookId);
         if (book.isPresent()) {
             book.get().setOwner(null);
+            book.get().setTaken_at(null);
         }
         //book.getOwner().deleteBook(book);
     }
@@ -108,7 +110,13 @@ public class BookServiceImpl implements BookService {
     public void setOwnerForBook(int bookId, Person person) {
         Book book = getBookById(bookId);
         book.setOwner(person);
+        book.setTaken_at(new Date());
 
+    }
+
+    @Override
+    public Book searchBookByTitle(String typedString) {
+       return bookRepo.findByTitleStartingWith(typedString);
     }
 
 

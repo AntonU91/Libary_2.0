@@ -17,13 +17,18 @@
     <b>Книги:</b>
     <br/>
     <table th:each="book : ${bookList}">
-        <tr th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublication}">book</tr>
+        <tr>
+            <td>
+                <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublication}"
+                      th:style="${book.isBookRentIsOverdue()}?'color:red':'color:black'">book</span>
+            </td>
+        </tr>
     </table>
     <hr/>
 </div>
 
 <br>
-<form th:method="GET" th:action ="@{{id}/edit(id = ${person.getId()})}">
+<form th:method="GET" th:action="@{{id}/edit(id = ${person.getId()})}">
     <input type="submit" value="Edit person">
 </form>
 <br>

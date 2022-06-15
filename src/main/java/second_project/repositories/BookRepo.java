@@ -7,4 +7,5 @@ import second_project.models.Person;
 
 @Repository
 public interface BookRepo extends JpaRepository<Book, Integer> {
+    public Book findByTitleStartingWith (String typedString);
 }

@@ -6,12 +6,12 @@
 </head>
 <body>
 <div th:each="book : ${books}">
-<a th:href="@{/books/{id}(id=${book.getId})}"> <span th:text="${book.getTitle()}"/>, <span th:text="${book.getAuthor()}"/>, <span th:text="${book.getYearOfPublication()}"/></a>
+<a th:href="@{/books/{id}(id=${book.getId})}"> <span th:text="${book.getTitle()}"></span>, <span th:text="${book.getAuthor()}"></span>, <span th:text="${book.getYearOfPublication()}"></span></a>
     <br>
 </div>
 <br>
-<span th:text="Page+': ' "/><a th:href="@{/books?page=0&books_per_page=3}" th:text="1"></a>
-<a th:href="@{/books?page=1&books_per_page=3}" th:text="2"></a>
+<!--<span th:text="Page+': ' "/><a th:href="@{/books?page=0&books_per_page=3}" th:text="1"></a>-->
+<!--<a th:href="@{/books?page=1&books_per_page=3}" th:text="2"></a>-->
 <br>
 <!--<footer style="font-size: large" class="panel-footer">-->
 <!--    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]-->

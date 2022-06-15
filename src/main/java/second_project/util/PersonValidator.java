@@ -14,7 +14,7 @@ public class PersonValidator  implements Validator {
 
 
     @Autowired
-    public PersonValidator(PersonService personService) {
+    public PersonValidator(PersonService personService)  {
         this.personService = personService;
     }
 

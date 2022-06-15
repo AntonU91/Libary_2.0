@@ -133,6 +133,16 @@ public class BookController {
         return "redirect:/books/"+id;
 
     }
+    @GetMapping ("/books/search")
+    public String searchBook (Model model) {
+       return "book/search-book";
+    }
 
+    @GetMapping ("/books/execute-searching")
+    public String showResultOfSearchingBook (@RequestParam (value = "typedString") String typedString, Model model) {
+        Book book=bookService.searchBookByTitle(typedString);
+        model.addAttribute("book", book);
+        return "book/search-book";
+    }
 
 }
