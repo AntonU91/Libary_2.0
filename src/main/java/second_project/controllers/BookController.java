@@ -39,35 +39,18 @@ public class BookController {
 //    //}
 //        return "book/books";
 //    }
-    @GetMapping("/books")
-    public String showAllBooks(Model model,@RequestParam(name = "page", required = false) String currentPage,
-                          @RequestParam (name = "books_per_page",required = false) String booksNumberOnPage, @RequestParam (name="sort_by_year", required = false) boolean sortByYear) {
-
-        if ((currentPage!=null && Integer.parseInt(currentPage)>=0)
-                ||( booksNumberOnPage!=null && Integer.parseInt(booksNumberOnPage)>0)) {
-        model.addAttribute("books", bookService.getAllBooks(Integer.parseInt(currentPage), Integer.parseInt(booksNumberOnPage), sortByYear));}
-        else {
-        model.addAttribute("books", bookService.getAllBooks(sortByYear));
-        }
-        return "book/books";
-    }
-
 //    @GetMapping("/books")
-//    public String getOnePage(Model model, @RequestParam(name = "page", required = false) String currentPage,
-//                             @RequestParam (name = "books_per_page",required = false) String booksNumberOnPage){
-//        Page<Book> page = (Page<Book>) bookService.findPage( Integer.parseInt(currentPage), Integer.parseInt(booksNumberOnPage));
-//        int totalPages = page.getTotalPages();
-//        long totalItems = page.getTotalElements();
-//        List<Book> books = page.getContent();
+//    public String showAllBooks(Model model,@RequestParam(name = "page", required = false) String currentPage,
+//                          @RequestParam (name = "books_per_page",required = false) String booksNumberOnPage, @RequestParam (name="sort_by_year", required = false) boolean sortByYear) {
 //
-//        model.addAttribute("currentPage", currentPage );
-//        model.addAttribute("totalPages", totalPages);
-//        model.addAttribute("totalItems", totalItems);
-//        model.addAttribute("countries", books);
-//
-//        return "/book/books";
+//        if ((currentPage!=null && Integer.parseInt(currentPage)>=0)
+//                ||( booksNumberOnPage!=null && Integer.parseInt(booksNumberOnPage)>0)) {
+//        model.addAttribute("books", bookService.getAllBooks(Integer.parseInt(currentPage), Integer.parseInt(booksNumberOnPage), sortByYear));}
+//        else {
+//        model.addAttribute("books", bookService.getAllBooks(sortByYear));
+//        }
+//        return "book/books";
 //    }
-
 
 
     @GetMapping("/books/new")
@@ -143,6 +126,26 @@ public class BookController {
          List<Book> books=bookService.searchBookByTitle(typedString);
         model.addAttribute("books", books);
         return "book/search-book";
+    }
+
+    @GetMapping("/books")
+    public String getAllPages(Model model){
+        return getOnePage(model, 1);
+    }
+
+    @GetMapping("/books/page/{pageNumber}")
+    public String getOnePage(Model model, @PathVariable("pageNumber") int currentPage){
+        Page<Book> page = bookService.findPage(currentPage);
+        int totalPages = page.getTotalPages();
+        long totalItems = page.getTotalElements();
+        List<Book> books = page.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("books", books);
+
+        return "/book/books-pagination";
     }
 
 }

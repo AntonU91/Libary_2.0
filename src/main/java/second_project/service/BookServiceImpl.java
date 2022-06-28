@@ -119,5 +119,11 @@ public class BookServiceImpl implements BookService {
        return bookRepo.findBookByTitleContainingIgnoreCase(typedString);
     }
 
+    @Override
+    public Page<Book> findPage(int pageNumber) {
+        Pageable pageable=  PageRequest.of(pageNumber-1, 4 );
+        return bookRepo.findAll(pageable);
+    }
+
 
 }

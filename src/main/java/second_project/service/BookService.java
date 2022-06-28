@@ -21,5 +21,6 @@ public interface BookService {
     public void releaseBookFromTheOwner(int bookId);
     public void setOwnerForBook(int bookId, Person person);
     public List<Book>searchBookByTitle(String  typedString);
+    public Page<Book> findPage(int pageNumber);
 
 }

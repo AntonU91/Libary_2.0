@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+<body>
+<nav th:insert="front_page::nav_bar">
+</nav>
+<div class="container-fluid ml-2">
+    <div class="list-group mt-2 d-inline-block ">
+        <div th:each="book : ${books}">
+            <a class="list-group-item mt-2 border-0 p-0" aria-current="true" th:href="@{/books/{id}(id=${book.getId})}"
+               th:text="${book.getTitle() + ', '+book.getAuthor() + ', '+book.getYearOfPublication()}">
+            </a>
+        </div>
+    </div>
+    <br>
+    <br>
+    <a class="btn btn-primary" th:href="@{/books/new}" role="button">Add new book</a>
+    <nav aria-label="Page navigation example" class="mt-4">
+        <ul class="pagination">
+            <li class="page-item" th:if="${currentPage > 1}">
+                <a class="page-link" th:href="@{'/books/page/' + ${currentPage -1}}">Previous
+                </a>
+            </li>
+            <div class="d-inline" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                <li class="page-item" th:if="${i != currentPage}">
+                    <a class="page-link" th:href="@{'/books/page/' + ${i}}">[[${i}]]</a>
+                </li>
+                <li class="page-item active" aria-current="page" th:unless="${i != currentPage}">
+                    <a class="page-link">[[${i}]]</a>
+                </li>
+            </div>
+            <li class="page-item" th:if="${currentPage < totalPages}">
+                <a class="page-link" th:href="@{'/books/page/' + ${currentPage + 1}}">Next
+                </a>
+            </li>
+        </ul>
+       <div th:text="'Total items '+ ${totalItems} + ' : Page '+ ${currentPage} + ' of ' + ${totalPages}"> Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]</div>
+    </nav>
+</div>
+
+
+</body>
+</html>
