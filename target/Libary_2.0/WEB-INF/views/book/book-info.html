@@ -3,46 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body>
-
-<div  th:text="${ 'Book`s title: '+ book.getTitle()}"/>
-<div th:text="${ 'Book`s author: ' + book.getAuthor()}"/>
-<div  th:text="${ 'Book`s year publication: '+ book.getYearOfPublication()}"/>
-<hr>
-<br>
-
-<div th:if="${owner}">
-<p th:text="'Книга сейчас у: ' +${owner.getFullName()} "></p>
- <form th:method="PATCH" th:action="@{/set-book-free/{id}(id=${book.getId()})}">
-     <input type="submit" value="Освободить книгу">
- </form>
+<nav th:insert="front_page::nav_bar">
+</nav>
+<div class="container-fluid mt-4 ml-2">
+    <div th:text="${ 'Book title: '+ book.getTitle()}"/>
+    <div th:text="${ 'Book author: ' + book.getAuthor()}"/>
+    <div th:text="${ 'Book year publication: '+ book.getYearOfPublication()}"/>
     <hr>
-</div>
+    <br>
 
-<div th:if="${people}">
-    <div>This book is free for assigning. Do you want assign an owner for this book?</div>
-<form th:method="PATCH" th:action="@{/set-book-owner/{id}(id=${book.getId()})}">
-    <label for="person">Choose a person:</label>
-    <select th:object="${person}" th:field="*{id}" id="person">
-        <option th:each="personToChoose : ${people}" th:value="${personToChoose.getId()}"
-                th:text="${personToChoose.getFullName()}"></option>
-    </select>
-    <input type="submit" value="Assign a book"/>
+    <div th:if="${owner}">
+        <p th:text="'This book is ordered by ' +${owner.getFullName()} "></p>
+        <form th:method="PATCH" th:action="@{/set-book-free/{id}(id=${book.getId()})}">
+            <input class="btn btn-primary" role="button" type="submit" value="Release book">
+        </form>
+        <hr>
+    </div>
+
+    <div th:if="${people}">
+        <div>This book is free for assigning. Do you want assign an owner for this book?</div>
+        <form th:method="PATCH" th:action="@{/set-book-owner/{id}(id=${book.getId()})}">
+            <label for="person">Choose a person:</label>
+            <select th:object="${person}" th:field="*{id}" id="person">
+                <option th:each="personToChoose : ${people}" th:value="${personToChoose.getId()}"
+                        th:text="${personToChoose.getFullName()}"></option>
+            </select>
+            <button type="submit" class="btn btn-primary">Assign a book</button>
+        </form>
+        <hr>
+    </div>
+
+    <a class="btn btn-primary mt-2" role="button" th:href="@{/books/{id}/edit(id = ${book.getId()})}">Edit info
+    </a>
+    <br>
+
+    <form th:method="DELETE" th:action="@{/delete-book/{id}(id=${book.getId()})}">
+        <input role="button" class="btn btn-primary mt-2" type="submit" value="Delete book"/>
     </form>
-    <hr>
 </div>
-
-
-
-<a th:href="@{/books/{id}/edit(id = ${book.getId()})}">
-    <button>Edit info</button>
-</a>
-<br>
-
-<form th:method="DELETE" th:action="@{/delete-book/{id}(id=${book.getId()})}">
-    <input type="submit" value="Delete book"/>
-</form>
-
 </body>
 </html>

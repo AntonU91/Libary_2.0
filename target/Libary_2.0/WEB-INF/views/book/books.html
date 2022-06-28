@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body>
-<div th:each="book : ${books}">
-<a th:href="@{/books/{id}(id=${book.getId})}"> <span th:text="${book.getTitle()}"></span>, <span th:text="${book.getAuthor()}"></span>, <span th:text="${book.getYearOfPublication()}"></span></a>
+<nav th:insert="front_page::nav_bar">
+</nav>
+<div class="container-fluid ml-2">
+    <div class="list-group mt-2 d-inline-block ">
+        <div th:each="book : ${books}">
+            <a  class="list-group-item mt-2 border-0 p-0" aria-current="true" th:href="@{/books/{id}(id=${book.getId})}"
+               th:text="${book.getTitle() + ', '+book.getAuthor() + ', '+book.getYearOfPublication()}">
+            </a>
+        </div>
+    </div>
     <br>
+    <br>
+    <a class="btn btn-primary" th:href="@{/books/new}" role="button">Add new book</a>
 </div>
-<br>
-<!--<span th:text="Page+': ' "/><a th:href="@{/books?page=0&books_per_page=3}" th:text="1"></a>-->
-<!--<a th:href="@{/books?page=1&books_per_page=3}" th:text="2"></a>-->
-<br>
-<!--<footer style="font-size: large" class="panel-footer">-->
-<!--    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]-->
-<!--    &nbsp; &nbsp; - &nbsp;-->
-<!--    <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--        <a th:href="@{/books?page={i}&books_per_page=3{id=${currentPage}}}">[[${i}]]</a>-->
-<!--        &nbsp; &nbsp;-->
-<!--    </span>-->
-<!--</footer>-->
 
-<a th:href="@{/books/new}"><button>Add new book</button></a>
 </body>
 </html>

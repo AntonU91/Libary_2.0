@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" >
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body>
-<div th:each="person : ${people}">
-<a th:href="@{/people/{id}(id=${person.getId})}"> <span th:text="${person.getFullName}"/>, <span th:text="${person.getYearOfBirthday}"/></a>
+<nav th:insert="front_page::nav_bar">
+</nav>
+<br>
+<div class="container-fluid ml-2">
+    <div th:each="person : ${people}">
+        <div class="list-group mt-2 d-inline-block ">
+            <a th:href="@{/people/{id}(id=${person.getId})}"
+               th:text="${person.getFullName + ', '+person.getYearOfBirthday}"
+               class="list-group-item border-0 p-0" aria-current="true">
+                <!--        <span th:text="${person.getFullName}"/>, <span th:text="${person.getYearOfBirthday}"/>-->
+            </a>
+        </div>
+    </div>
     <br>
+    <a class="btn btn-primary" th:href="@{/people/new}" role="button">Register new member</a>
 </div>
-<br>
-<br>
-<a th:href="@{/people/new}"><button>Register new member</button></a>
 </body>
 </html>

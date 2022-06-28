@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body>
+<nav th:insert="front_page::nav_bar">
+</nav>
+<div class="container-fluid mt-4 ml-2">
 <form th:method="post" th:action="@{/create-new-book}" th:object="${newBook}">
     <label for="title">Enter the title </label>
     <input type="text" th:field="*{title}" id="title">
@@ -18,8 +23,9 @@
     <input type="text" th:field="*{yearOfPublication}" id="yearOfPublication">
     <div style="color: red" th:if="${#fields.hasErrors('yearOfPublication')}" th:errors="*{yearOfPublication}">Publication year error</div>
     <br>
-    <input type="submit" value="Create">
+    <input type="submit"  class="btn btn-primary mt-2" value="Create">
 </form>
+</div>
 
 </body>
 </html>

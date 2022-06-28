@@ -20,6 +20,6 @@ public interface BookService {
     public Person getOwner(int bookId);
     public void releaseBookFromTheOwner(int bookId);
     public void setOwnerForBook(int bookId, Person person);
-    public Book searchBookByTitle(String  typedString);
+    public List<Book>searchBookByTitle(String  typedString);
 
 }

@@ -115,8 +115,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book searchBookByTitle(String typedString) {
-       return bookRepo.findByTitleStartingWith(typedString);
+    public List<Book> searchBookByTitle(String typedString) {
+       return bookRepo.findBookByTitleContainingIgnoreCase(typedString);
     }
 
 
