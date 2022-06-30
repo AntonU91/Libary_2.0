@@ -11,6 +11,7 @@ import java.util.List;
 public interface BookService {
     public Book getBookById (int id);
 
+    public  Iterable<Book> getAllBooks ();
     public List<Book> getAllBooks (boolean sortByYear);
    // public Iterable<Book> findPage(int pageNumber, int itemsOnPage); //todo check the efficient of this one
     public Iterable<Book> getAllBooks (Integer pageNumber, Integer itemsOnPage, boolean sortByYear);
@@ -22,5 +23,7 @@ public interface BookService {
     public void setOwnerForBook(int bookId, Person person);
     public List<Book>searchBookByTitle(String  typedString);
     public Page<Book> findPage(int pageNumber);
+    public Page<Book> findBooksWithSorting(String direction, int pageNumber);
+
 
 }
