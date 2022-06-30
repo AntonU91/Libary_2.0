@@ -8,50 +8,47 @@ import java.util.Date;
 
 @Component
 @Entity
-@Table (name = "book", schema = "project_2")
+@Table(name = "book", schema = "project_2")
 public class Book {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (name = "id")
-    private  int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
 
-    @Column (name ="title")
-    @NotBlank (message = "The title must have at least one non-space character")
+    @Column(name = "title")
+    @NotBlank(message = "The title must have at least one non-space character")
     private String title;
 
-    @Column (name = "author")
-    @Size(min= 3 , message = "The full name of author must have 3 or more letters")
+    @Column(name = "author")
+    @Size(min = 3, message = "The full name of author must have 3 or more letters")
 //    @Pattern (regexp = "[A-ZА-Я]\\w+", message = "The field author should have at least 1 character and begins with capital letter")
-   private String author;
+    private String author;
 
-    @Column (name = "year_of_publication")
-    @Min( value = 1, message = "The year of publication must be positive positive digit and has value greater than '0'")
+    @Column(name = "year_of_publication")
+    @Min(value = 1, message = "The year of publication must be positive positive digit and has value greater than '0'")
     private int yearOfPublication;
 
-    @Column (name = "taken_at")
+    @Column(name = "taken_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date taken_at;
 
-//    @Transient
+    //    @Transient
 //    boolean overdueBookRent;
+    public Book() {
+    }
 
-    public boolean isBookRentIsOverdue () {
-    return new Date().getTime() >= (taken_at.getTime() + (10 * 24 * 60 * 60 * 1000)); // return true notice: allows 10 days for renting book
+    public boolean isBookRentIsOverdue() {
+        return new Date().getTime() >= (taken_at.getTime() + (10 * 24 * 60 * 60 * 1000)); // return true notice: allows 10 days for renting book
     }
 
 
     @ManyToOne
-    @JoinColumn(name= "person_id", referencedColumnName = "id")
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
 
-
-
-    public Book() {
-    }
-
-    public Book( int id,String title, String author, int yearOfPublication) {
+    public Book(int id, String title, String author, int yearOfPublication) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -98,7 +95,7 @@ public class Book {
     public int getId() {
         return id;
     }
-    
+
     public int getYearOfPublication() {
         return yearOfPublication;
     }
