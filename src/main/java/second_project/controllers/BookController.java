@@ -1,6 +1,7 @@
 package second_project.controllers;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import second_project.models.Book;
 import second_project.models.Person;
 import second_project.service.BookService;
@@ -21,14 +22,13 @@ public class BookController {
     private final PersonService personService;
 
 
-
     @Autowired
     public BookController(BookService bookService, PersonService personService) {
         this.bookService = bookService;
         this.personService = personService;
     }
 
-//    @GetMapping("/books")
+//    @GetMapping("/books/all")
 //    public String showAllBooks(Model model) {
 //
 ////        if ((pageNumber!=null && Integer.parseInt(pageNumber)>=0)
@@ -39,7 +39,7 @@ public class BookController {
 //    //}
 //        return "book/books";
 //    }
-//    @GetMapping("/books")
+//    @GetMapping("/books/all")
 //    public String showAllBooks(Model model,@RequestParam(name = "page", required = false) String currentPage,
 //                          @RequestParam (name = "books_per_page",required = false) String booksNumberOnPage, @RequestParam (name="sort_by_year", required = false) boolean sortByYear) {
 //
@@ -82,7 +82,7 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}/edit")
-    public String updateBookInfo( Model model, @PathVariable("id") int id) {
+    public String updateBookInfo(Model model, @PathVariable("id") int id) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
         return "book/update-book";
@@ -91,8 +91,9 @@ public class BookController {
     @PatchMapping("/books/{id}")
     public String executeUpdatingPersonInfo(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult, @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
-           // book.setId(id); //todo
-            return "book/update-book";}
+            // book.setId(id); //todo
+            return "book/update-book";
+        }
         bookService.updateBook(id, book);
         return "redirect:/books";
     }
@@ -105,15 +106,16 @@ public class BookController {
 
     @PatchMapping("/set-book-free/{id}")
     public String makeBookFree(@PathVariable int id) {
-      // Book book = bookService.getBookById(id);
-       bookService.releaseBookFromTheOwner(id);
-       return "redirect:/books/"+id;
+        // Book book = bookService.getBookById(id);
+        bookService.releaseBookFromTheOwner(id);
+        return "redirect:/books/" + id;
     }
-    @PatchMapping ("/set-book-owner/{id}")
+
+    @PatchMapping("/set-book-owner/{id}")
     public String setBookOwner(@PathVariable int id, @ModelAttribute("person") Person selectedPerson) {
         System.out.println(selectedPerson.getId());
         bookService.setOwnerForBook(id, selectedPerson);
-        return "redirect:/books/"+id;
+        return "redirect:/books/" + id;
 
     }
 //    @GetMapping ("/books/search")
@@ -121,20 +123,24 @@ public class BookController {
 //       return "book/search-book";
 //    }
 
-    @GetMapping ("/books/execute-searching")
-    public String showResultOfSearchingBook (@RequestParam(value = "typedString") String typedString, Model model) {
-         List<Book> books=bookService.searchBookByTitle(typedString);
+    @GetMapping("/books/execute-searching")
+    public String showResultOfSearchingBook(@RequestParam(value = "typedString") String typedString, Model model) {
+        List<Book> books = bookService.searchBookByTitle(typedString);
         model.addAttribute("books", books);
         return "book/search-book";
     }
 
     @GetMapping("/books")
-    public String getAllPages(Model model){
-        return getOnePage(model, 1);
+    public String getAllPagesWithBooks(Model model, @RequestParam(value = "sortDir", required = false) String sortDir) {
+        return getOnePageWithBooks(model, 1);
     }
 
-    @GetMapping("/books/page/{pageNumber}")
-    public String getOnePage(Model model, @PathVariable("pageNumber") int currentPage){
+    @GetMapping("/books/page/{pageNumber}") // todo
+    public String getOnePageWithBooks(Model model, @PathVariable(value = "pageNumber") int currentPage) {
+        if (currentPage == 0) {
+            bookService.getAllBooks();
+        }
+
         Page<Book> page = bookService.findPage(currentPage);
         int totalPages = page.getTotalPages();
         long totalItems = page.getTotalElements();
@@ -148,4 +154,23 @@ public class BookController {
         return "/book/books-pagination";
     }
 
+    @GetMapping("/books/page/{pageNumber}/sort")
+    public String getOnePageWithSortingBooks(Model model, @PathVariable("pageNumber") int currentPage,
+                                             @RequestParam(value = "sortDir", required = false) String sortDir) {
+
+        Page<Book> page = bookService.findBooksWithSorting(sortDir, currentPage);
+        int totalPages = page.getTotalPages();
+        long totalItems = page.getTotalElements();
+        List<Book> books = page.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("books", books);
+/////////
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        return "/book/books-pagination";
+
+    }
 }

@@ -56,13 +56,11 @@ public class BookServiceImpl implements BookService {
         }
 
     }
+    @Override
+    public Iterable<Book> getAllBooks () {
+        return bookRepo.findAll();
+    }
 
-//    @Override
-//    public Iterable<Book> findPage(int pageNumber, int itemsOnPage) {
-//       Pageable pageable =  PageRequest.of(pageNumber-1, itemsOnPage);
-//
-//        return bookRepo.findAll(pageable);
-//    }
 
     @Override
     @Transactional
@@ -122,6 +120,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public Page<Book> findPage(int pageNumber) {
         Pageable pageable=  PageRequest.of(pageNumber-1, 4 );
+        return bookRepo.findAll(pageable);
+    }
+
+    @Override
+    public Page<Book> findBooksWithSorting(String direction, int pageNumber){
+        Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name())?
+                Sort.by("title").ascending(): Sort.by("title").descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1,4, sort);
         return bookRepo.findAll(pageable);
     }
 
