@@ -87,7 +87,6 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepo.findById(bookId).orElse(null);
         return book.getOwner();
 
-
 //        return    (Person) session.createQuery("select Person from Book join Person on Book.owner.id=Person.id where Book.id=:id")
 //                .setParameter("id", bookId).getResultList().stream().findAny().orElse(null);
     }

@@ -28,31 +28,6 @@ public class BookController {
         this.personService = personService;
     }
 
-//    @GetMapping("/books/all")
-//    public String showAllBooks(Model model) {
-//
-////        if ((pageNumber!=null && Integer.parseInt(pageNumber)>=0)
-////                ||( booksNumberOnPage!=null && Integer.parseInt(booksNumberOnPage)>0)) {
-////        model.addAttribute("books", bookService.findThePage(Integer.parseInt(pageNumber), Integer.parseInt(booksNumberOnPage)));}
-////        else {
-//        model.addAttribute("books", bookService.getAllBooks());
-//    //}
-//        return "book/books";
-//    }
-//    @GetMapping("/books/all")
-//    public String showAllBooks(Model model,@RequestParam(name = "page", required = false) String currentPage,
-//                          @RequestParam (name = "books_per_page",required = false) String booksNumberOnPage, @RequestParam (name="sort_by_year", required = false) boolean sortByYear) {
-//
-//        if ((currentPage!=null && Integer.parseInt(currentPage)>=0)
-//                ||( booksNumberOnPage!=null && Integer.parseInt(booksNumberOnPage)>0)) {
-//        model.addAttribute("books", bookService.getAllBooks(Integer.parseInt(currentPage), Integer.parseInt(booksNumberOnPage), sortByYear));}
-//        else {
-//        model.addAttribute("books", bookService.getAllBooks(sortByYear));
-//        }
-//        return "book/books";
-//    }
-
-
     @GetMapping("/books/new")
     public String newBook(@ModelAttribute("newBook") Book book) {
         return "book/add-new-book";
@@ -118,10 +93,7 @@ public class BookController {
         return "redirect:/books/" + id;
 
     }
-//    @GetMapping ("/books/search")
-//    public String searchBook (Model model) {
-//       return "book/search-book";
-//    }
+
 
     @GetMapping("/books/execute-searching")
     public String showResultOfSearchingBook(@RequestParam(value = "typedString") String typedString, Model model) {
@@ -167,7 +139,6 @@ public class BookController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("books", books);
-/////////
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         return "/book/books-pagination";
